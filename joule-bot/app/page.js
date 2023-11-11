@@ -15,8 +15,10 @@ export default function Home() {
 	const isFaqOpen = (index) => openFaqIndex === index;
 	const getDropdownIcon = (index) => (isFaqOpen(index) ? "▲" : "▼");
 	const isMatchedQuestion = (index) => index === openFaqIndex;
+	const [isLoading, setIsLoading] = useState(false);
 
 	const fetchData = async () => {
+		setIsLoading(true);
 		if (!inputValue.trim() || !password.trim()) {
 			alert("Question and password cannot be empty.");
 			return;
@@ -49,8 +51,10 @@ export default function Home() {
 			} else {
 				throw new Error(`Error: ${response.status}`);
 			}
+			setIsLoading(false);
 		} catch (error) {
 			console.error("Failed to fetch data:", error);
+			setIsLoading(false);
 		}
 	};
 
@@ -94,8 +98,9 @@ export default function Home() {
 						className="flex-1 mr-2 p-2 border rounded text-black"
 						placeholder="Enter question"
 						onKeyDown={(e) => {
-							if (e.key === "Enter") fetchData();
+							if (e.key === "Enter" && !isLoading) fetchData();
 						}}
+						disabled={isLoading}
 					/>
 					<input
 						type="password"
@@ -106,9 +111,9 @@ export default function Home() {
 					/>
 					<button
 						onClick={fetchData}
-						className="p-2 bg-[#60d9d1] text-white rounded hover:bg-[#014a7e] transition duration-300">
-						{" "}
-						Enter
+						className="p-2 bg-[#60d9d1] text-white rounded hover:bg-[#014a7e] transition duration-300"
+						disabled={isLoading}>
+						{isLoading ? "Loading..." : "Enter"}
 					</button>
 				</div>
 				<div className="text-left w-full">
