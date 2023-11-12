@@ -84,17 +84,21 @@ export default function Home() {
 	return (
 		<main className="flex min-h-screen justify-center items-center p-4 md:p-24 bg-[#effbfa]">
 			<div className="flex flex-col items-start space-y-4 w-full max-w-7xl mx-auto bg-white p-4 shadow-lg rounded">
-				<h1>Joule faq bot</h1>
+				<h1>Joule faq assistant</h1>
 				<p>
-					This bot tries to link your question to the questions found in our
-					faq. I used{" "}
+					This chatbot utilizes AI technology to match user queries with the
+					most relevant questions from our
 					<a
 						href="https://clients.joule.be/knowledge/article/49"
 						target="blank"
 						className="underline">
 						knowledge article
 					</a>{" "}
-					as my source and copied the questions in my server and beneath.
+					. It uses embeddings, which are advanced AI techniques, to understand
+					the context and meaning of words in user queries and FAQ questions.
+					This allows the assistant to find the best matching FAQ entry for a
+					given query. This assistant tries to link your question to the
+					questions found in our faq.
 				</p>
 				<h2>Question</h2>
 				<div className="flex flex-col md:flex-row w-full">
@@ -129,15 +133,23 @@ export default function Home() {
 					</button>
 				</div>
 				<div className="text-left w-full">
-					{" "}
 					<div className="my-2">
 						<strong>Original question:</strong> {data.question || "N/A"}
+						<p className="text-sm text-gray-500 italic">
+							This is the question you asked.
+						</p>
 					</div>
 					<div className="my-2">
 						<strong>Matched question:</strong> {data.matchedQuestion || "N/A"}
+						<p className="text-sm text-gray-500 italic">
+							This is the most closely related question found in our FAQ.
+						</p>
 					</div>
 					<div className="my-2">
 						<strong>Matched answer:</strong> {data.matchedAnswer || "N/A"}
+						<p className="text-sm text-gray-500 italic">
+							This is the answer to the matched question.
+						</p>
 					</div>
 					{data.matchedAnswer && (
 						<button
@@ -149,15 +161,26 @@ export default function Home() {
 					<div className="my-2">
 						<strong>Second Best Matched Question:</strong>{" "}
 						{data.secondBestMatchQuestion || "N/A"}
+						<p className="text-sm text-gray-500 italic">
+							This is the second most relevant question from our FAQ.
+						</p>
 					</div>
 					<div className="my-2">
 						<strong>Second Best Matched Answer:</strong>{" "}
 						{data.secondBestMatchAnswer || "N/A"}
+						<p className="text-sm text-gray-500 italic">
+							This is the answer to the second best matched question.
+						</p>
 					</div>
 					<div className="my-2">
 						<strong>ChatGPT Answer:</strong> {data.chatGptAnswer || "N/A"}
+						<p className="text-sm text-gray-500 italic">
+							This is an AI-generated response that combines insights from the
+							matched FAQ content and the user's query.
+						</p>
 					</div>
 				</div>
+
 				<h2>FAQ</h2>
 				<div className="w-full">
 					{" "}
