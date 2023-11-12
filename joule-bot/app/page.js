@@ -9,6 +9,10 @@ export default function Home() {
 		question: "",
 		matchedQuestion: "",
 		matchedAnswer: "",
+		matchedIndex: "",
+		secondBestMatchQuestion: "",
+		secondBestMatchAnswer: "",
+		secondBestMatchIndex: "",
 		chatGptAnswer: "",
 	});
 	const [openFaqIndex, setOpenFaqIndex] = useState(-1);
@@ -21,6 +25,7 @@ export default function Home() {
 		setIsLoading(true);
 		if (!inputValue.trim() || !password.trim()) {
 			alert("Question and password cannot be empty.");
+			setIsLoading(false);
 			return;
 		}
 
@@ -41,6 +46,9 @@ export default function Home() {
 					matchedQuestion: result.matchedQuestion,
 					matchedAnswer: result.matchedAnswer,
 					matchedIndex: result.matchedIndex,
+					secondBestMatchQuestion: result.secondBestMatchQuestion,
+					secondBestMatchAnswer: result.secondBestMatchAnswer,
+					secondBestMatchIndex: result.secondBestMatchIndex,
 					chatGptAnswer: result.chatGptAnswer,
 				});
 				setOpenFaqIndex(result.matchedIndex);
@@ -108,6 +116,10 @@ export default function Home() {
 						onChange={(e) => setPassword(e.target.value)}
 						className="flex-1 mr-2 p-2 border rounded text-black"
 						placeholder="Enter password"
+						onKeyDown={(e) => {
+							if (e.key === "Enter" && !isLoading) fetchData();
+						}}
+						disabled={isLoading}
 					/>
 					<button
 						onClick={fetchData}
@@ -131,9 +143,17 @@ export default function Home() {
 						<button
 							onClick={scrollToMatchedQuestion}
 							className="p-1 bg-[#60d9d1] text-white rounded hover:bg-[#014a7e] transition duration-300">
-							Go to Answer
+							Go to best matched question
 						</button>
 					)}
+					<div className="my-2">
+						<strong>Second Best Matched Question:</strong>{" "}
+						{data.secondBestMatchQuestion || "N/A"}
+					</div>
+					<div className="my-2">
+						<strong>Second Best Matched Answer:</strong>{" "}
+						{data.secondBestMatchAnswer || "N/A"}
+					</div>
 					<div className="my-2">
 						<strong>ChatGPT Answer:</strong> {data.chatGptAnswer || "N/A"}
 					</div>
